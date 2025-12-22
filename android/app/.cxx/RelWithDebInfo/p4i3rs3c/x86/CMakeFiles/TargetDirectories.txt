@@ -1,0 +1,2 @@
+/Users/ayush/mehndiwala/android/app/.cxx/RelWithDebInfo/p4i3rs3c/x86/CMakeFiles/edit_cache.dir
+/Users/ayush/mehndiwala/android/app/.cxx/RelWithDebInfo/p4i3rs3c/x86/CMakeFiles/rebuild_cache.dir

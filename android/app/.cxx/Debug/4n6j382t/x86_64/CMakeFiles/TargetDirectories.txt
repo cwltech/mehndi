@@ -1,0 +1,2 @@
+F:/mehndiwala/android/app/.cxx/Debug/4n6j382t/x86_64/CMakeFiles/edit_cache.dir
+F:/mehndiwala/android/app/.cxx/Debug/4n6j382t/x86_64/CMakeFiles/rebuild_cache.dir

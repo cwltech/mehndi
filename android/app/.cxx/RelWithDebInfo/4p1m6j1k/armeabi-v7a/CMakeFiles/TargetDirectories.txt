@@ -1,0 +1,2 @@
+/Users/arunkumarsingh/allprojects/catalougeapp/catalougeapp/android/app/.cxx/RelWithDebInfo/4p1m6j1k/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/arunkumarsingh/allprojects/catalougeapp/catalougeapp/android/app/.cxx/RelWithDebInfo/4p1m6j1k/armeabi-v7a/CMakeFiles/rebuild_cache.dir

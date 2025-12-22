@@ -1,0 +1,2 @@
+C:/Users/CWL Technology/Downloads/mehndiwala/android/app/.cxx/RelWithDebInfo/364e106l/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/CWL Technology/Downloads/mehndiwala/android/app/.cxx/RelWithDebInfo/364e106l/x86_64/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "974999186247",
+    "project_id": "mehndiwala-3a364",
+    "storage_bucket": "mehndiwala-3a364.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974999186247:android:75f4076e9d8a3c06997a62",
+        "android_client_info": {
+          "package_name": "com.catalougeapp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjO3pJ5MYUXrYi7flLBXRoLHRpM8lLmhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

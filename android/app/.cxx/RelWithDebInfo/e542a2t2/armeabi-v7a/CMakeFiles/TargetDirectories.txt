@@ -1,0 +1,2 @@
+F:/mehndiwala/android/app/.cxx/RelWithDebInfo/e542a2t2/armeabi-v7a/CMakeFiles/edit_cache.dir
+F:/mehndiwala/android/app/.cxx/RelWithDebInfo/e542a2t2/armeabi-v7a/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+/Users/arunkumarsingh/allprojects/catalougeapp/catalougeapp/build/app/intermediates/cxx/RelWithDebInfo/4p1m6j1k/obj/x86_64

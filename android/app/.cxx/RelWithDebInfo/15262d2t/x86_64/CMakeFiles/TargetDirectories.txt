@@ -1,0 +1,2 @@
+F:/catalougeapp/catalougeapp/android/app/.cxx/RelWithDebInfo/15262d2t/x86_64/CMakeFiles/edit_cache.dir
+F:/catalougeapp/catalougeapp/android/app/.cxx/RelWithDebInfo/15262d2t/x86_64/CMakeFiles/rebuild_cache.dir
