@@ -99,6 +99,7 @@ class _AlbumPageState extends State<AlbumPage> {
                 }
 
                 return GridView.builder(
+                  padding: EdgeInsets.all(7),
                   controller: scrollController,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,

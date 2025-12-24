@@ -289,7 +289,7 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                         ),
                       ),
                       SizedBox(
-                        height: 400.h,
+                        height: 500.h,
                         width: Get.width,
                         child: Align(
                           alignment: Alignment.topRight,

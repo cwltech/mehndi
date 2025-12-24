@@ -16,7 +16,7 @@ class CategoryMenu extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     return Container(
       color: KColors.grey.withValues(alpha: 0.1),
-      height: 105.h,
+      height: 112.h,
       width: Get.width,
       child: Obx(
         () => ListView.builder(
@@ -37,7 +37,7 @@ class CategoryMenu extends GetView<HomePageController> {
               child: controller.subCategoryListUpdate[index].image == null
                   ? SizedBox()
                   : Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

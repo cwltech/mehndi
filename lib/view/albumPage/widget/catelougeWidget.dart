@@ -33,7 +33,7 @@ class CatelougeWidget extends StatelessWidget {
                       Obx(
                         () => Container(
                           margin: EdgeInsets.all(5.h),
-                          width: 180.w,
+                          // width: 180.w,
                           height: 230.h,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),

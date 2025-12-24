@@ -286,8 +286,7 @@ class LogoutButton extends StatelessWidget {
           //         builder: (BuildContext context) => LoginPage()),
           //     (Route<dynamic> route) => false);
           // Get.offAll(const LoginPage());
-        }, 
-        
+        },
         child:
             text!.f16w4(textColor: KColors.persistentBlack, fontSize: 12.sp));
   }
@@ -434,8 +433,8 @@ class CommonCategoryWidget extends StatelessWidget {
           child: Container(
             alignment: Alignment.bottomCenter,
             margin: EdgeInsets.all(5),
-            height: 130.h,
-            width: 165.w,
+            height: 137.h,
+            width: 180.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: KColors.background,
@@ -453,7 +452,7 @@ class CommonCategoryWidget extends StatelessWidget {
                     padding: EdgeInsets.all(5),
                     margin: EdgeInsets.all(5),
                     alignment: Alignment.center,
-                    height: 25.h,
+                    height: 28.h,
                     width: Get.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(3)),
