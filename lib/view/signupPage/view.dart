@@ -103,56 +103,6 @@ class SignUpPage extends GetView<SignInPageController> {
                           fillColor: Colors.transparent,
                           validator: (value) =>
                               Validation.emptyValidation(value!)),
-                      // height15,
-                      // Obx(
-                      //   () => CustomTextFormField(
-                      //     contentPadding:
-                      //         EdgeInsets.symmetric(vertical: getVerticalSize(7)),
-                      //     inputFormator: [LengthLimitingTextInputFormatter(10)],
-                      //     inputType: TextInputType.number,
-                      //     hintcolor: KColors.grey,
-                      //     prefixIcon: Icon(
-                      //       Icons.lock,
-                      //       color: KColors.grey,
-                      //       size: 20.h,
-                      //     ),
-                      //     controller: controller.phoneController,
-                      //     borderRadius: 10,
-                      //     hint: "Password...",
-                      //     fillColor: Colors.transparent,
-                      //     validator: (value) =>
-                      //         Validation.emptyValidation(value!),
-                      //     suffixIcon: InkWell(
-                      //       borderRadius: BorderRadius.circular(10),
-                      //       onTap: () {
-                      //         controller.isPasswordObscurring.value =
-                      //             !controller.isPasswordObscurring.value;
-                      //       },
-                      //       child: controller.isPasswordObscurring.value
-                      //           ? "Show"
-                      //               .f16w4(
-                      //                   textColor: KColors.grey, fontSize: 10.sp)
-                      //               .paddingAll(15)
-                      //           : "Hide"
-                      //               .f16w4(
-                      //                   textColor: KColors.grey, fontSize: 10.sp)
-                      //               .paddingAll(15),
-                      //     ),
-                      //     isSuffix: true,
-                      //     isObscurring: controller.isPasswordObscurring.value,
-                      //     isObscureText: controller.isPasswordObscurring.value,
-                      //   ),
-                      // ),
-                      // Align(
-                      //   alignment: Alignment.centerRight,
-                      //   child: CustomTextButton(
-                      //     ontap: () {},
-                      //     textButton: "Forgot Password?",
-                      //     fontWeight: FontWeight.w600,
-                      //     textcolor: KColors.grey,
-                      //     fontSize: 10.sp,
-                      //   ),
-                      // ),
                       getheight(context, 0.040),
                       PrimaryElevatedButton(
                         text: "Create account",
@@ -175,14 +125,6 @@ class SignUpPage extends GetView<SignInPageController> {
                           )
                         ],
                       ),
-
-                      // getheight(context, 0.020),
-                      // socilaLogin("assets/images/Group 447.png",
-                      //     "Login With Google", context),
-                      // socilaLogin("assets/images/Group 2582.png",
-                      //     "Login With Facebook", context),
-                      // socilaLogin(
-                      //     "assets/images/Group 2583.png", "Sign In With Apple", context)
                     ],
                   ),
                 ),

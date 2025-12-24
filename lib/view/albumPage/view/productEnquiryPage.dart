@@ -3,7 +3,6 @@ import 'package:catalougeapp/utils/constantValue.dart';
 import 'package:catalougeapp/utils/customElevatedButton.dart';
 import 'package:catalougeapp/utils/customText.dart';
 import 'package:catalougeapp/utils/customformfileds.dart';
-import 'package:catalougeapp/utils/localStorage.dart';
 import 'package:catalougeapp/utils/sizeHelper.dart';
 import 'package:catalougeapp/utils/validation.dart';
 import 'package:catalougeapp/view/albumPage/controller/controller.dart';
@@ -40,7 +39,6 @@ class ProductEnquiryPage extends GetView<AlbumPageController> {
                   contentPadding: EdgeInsets.symmetric(
                       vertical: getVerticalSize(10),
                       horizontal: getHorizontalSize(20)),
-
                   inputType: TextInputType.name,
                   hintcolor: KColors.persistentBlack.withValues(alpha: 0.7),
                   prefixIcon: Icon(
@@ -58,34 +56,6 @@ class ProductEnquiryPage extends GetView<AlbumPageController> {
                   //     controller.checkPhoneNumberLength()
                 ),
               ),
-              // height20,
-              // Container(
-              //   decoration: BoxDecoration(
-              //       border: Border(
-              //           bottom: BorderSide(
-              //               color: KColors.persistentBlack
-              //                   .withValues(alpha: 0.2)))),
-              //   child: CustomTextFormField(
-              //     contentPadding: EdgeInsets.symmetric(
-              //         vertical: getVerticalSize(10),
-              //         horizontal: getHorizontalSize(20)),
-
-              //     inputType: TextInputType.emailAddress,
-              //     hintcolor: KColors.persistentBlack.withValues(alpha: 0.7),
-              //     prefixIcon: Icon(
-              //       Icons.email_outlined,
-              //       color: KColors.persistentBlack.withValues(alpha: 0.5),
-              //       size: 20.h,
-              //     ),
-              //     controller: controller.emailController,
-              //     borderRadius: 10,
-              //     hint: "Email",
-              //     fillColor: Colors.transparent,
-              //     validator: (value) => Validation.emptyValidation(value!),
-              //     // onChanged: (p0) =>
-              //     //     controller.checkPhoneNumberLength()
-              //   ),
-              // ),
               height20,
               Container(
                 decoration: BoxDecoration(
@@ -114,33 +84,6 @@ class ProductEnquiryPage extends GetView<AlbumPageController> {
                   //     controller.checkPhoneNumberLength()
                 ),
               ),
-              // height20,
-              // Container(
-              //   decoration: BoxDecoration(
-              //       border: Border(
-              //           bottom: BorderSide(
-              //               color: KColors.persistentBlack
-              //                   .withValues(alpha: 0.2)))),
-              //   child: CustomTextFormField(
-              //     contentPadding: EdgeInsets.symmetric(
-              //         vertical: getVerticalSize(10),
-              //         horizontal: getHorizontalSize(20)),
-              //     inputType: TextInputType.name,
-              //     hintcolor: KColors.persistentBlack.withValues(alpha: 0.7),
-              //     prefixIcon: Icon(
-              //       Icons.message_outlined,
-              //       color: KColors.persistentBlack.withValues(alpha: 0.5),
-              //       size: 20.h,
-              //     ),
-              //     controller: controller.desController,
-              //     borderRadius: 10,
-              //     hint: "Message",
-              //     fillColor: Colors.transparent,
-              //     validator: (value) => Validation.emptyValidation(value!),
-              //     // onChanged: (p0) =>
-              //     //     controller.checkPhoneNumberLength()
-              //   ),
-              // ),
               height20,
               Container(
                 decoration: BoxDecoration(
@@ -203,11 +146,22 @@ class ProductEnquiryPage extends GetView<AlbumPageController> {
                                   .first
                                   .f16w4(
                                       textColor: KColors.persistentBlack
-                                          .withValues(alpha: 0.7),
-                                      fontSize: 12.sp)
+                                          .withValues(alpha: 0.9),
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500)
                         ],
                       )),
                 ),
+              ),
+              Obx(
+                () => controller.isselectedDate.value
+                    ? SizedBox()
+                    : Align(
+                        alignment: Alignment.centerLeft,
+                        child: "Required"
+                            .f14w4(textColor: KColors.mehroom, fontSize: 12)
+                            .paddingOnly(left: 20.w, top: 5),
+                      ),
               ),
               height20,
               Container(
@@ -241,9 +195,14 @@ class ProductEnquiryPage extends GetView<AlbumPageController> {
                   text: "Send",
                   ontap: () async {
                     if (controller.formKey.currentState!.validate()) {
-                      await controller.sendEnquiry(
-                          context, homePageController.catelougeId.value);
-                      Get.back();
+                      if (controller.selectedDate.value.isEmpty ||
+                          controller.selectedDate.value == "null") {
+                        controller.isselectedDate.value = false;
+                      } else {
+                        await controller.sendEnquiry(
+                            context, homePageController.catelougeId.value);
+                        Get.back();
+                      }
                     } else {}
                   }),
             ],

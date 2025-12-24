@@ -10,20 +10,20 @@ import 'package:catalougeapp/utils/fontfamilly.dart';
 import 'package:catalougeapp/utils/pageNavigation.dart';
 import 'package:catalougeapp/utils/sizeHelper.dart';
 import 'package:catalougeapp/view/albumPage/view/productEnquiryPage.dart';
-import 'package:catalougeapp/view/albumPage/widget/actionWallpaperbutton.dart';
 import 'package:catalougeapp/view/albumPage/widget/video%5BPlayer.dart';
 import 'package:catalougeapp/view/homepage/controller/controller.dart';
 import 'package:catalougeapp/view/homepage/widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-// import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AlbumDetailPage extends StatefulWidget {
@@ -56,12 +56,12 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
       await file.writeAsBytes(response.bodyBytes);
 
       // Ask the user to save it
-      // final params = SaveFileDialogParams(sourceFilePath: file.path);
-      // final finalPath = await FlutterFileDialog.saveFile(params: params);
+      final params = SaveFileDialogParams(sourceFilePath: file.path);
+      final finalPath = await FlutterFileDialog.saveFile(params: params);
 
-      // if (finalPath != null) {
-      //   message = 'Image saved to disk';
-      // }
+      if (finalPath != null) {
+        message = 'Image saved to disk';
+      }
     } catch (e) {
       message = e.toString();
       scaffoldMessenger.showSnackBar(SnackBar(
@@ -116,15 +116,12 @@ Please download our mobile app
 
 Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcampaignid=web_share 
 ''';
-
       await Share.shareXFiles(
         [XFile(filePath)],
         text: message,
         subject: "Mehndiwala App",
       );
-    } else {
-      debugPrint("❌ Failed to download image: ${response.statusCode}");
-    }
+    } else {}
   }
 
   void precacheImages(BuildContext context) {
@@ -172,11 +169,9 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                         child: Obx(
                           () {
                             final list = homePageController.categoryDetailList;
-
                             final currentIndex = homePageController
                                 .albumPageController.sliderIndex.value;
                             final lastIndex = list.length - 1;
-
                             return CarouselSlider(
                               items: homePageController.categoryDetailList
                                   .map((element) {
@@ -189,7 +184,6 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                                           width: Get.width,
                                           ontap: () {},
                                           //height: 600.h,
-
                                           ishide: false,
                                         )
                                       : CachedNetworkImage(
@@ -232,15 +226,10 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
 
                                   // Guard: list is empty
                                   if (list.isEmpty) {
-                                    debugPrint(
-                                        "⚠️ onPageChanged: list is empty, skipping API call");
                                     return;
                                   }
-
                                   // Guard: invalid index
                                   if (v < 0 || v >= list.length) {
-                                    debugPrint(
-                                        "⚠️ onPageChanged: invalid index $v, list length ${list.length}");
                                     return;
                                   }
 
@@ -267,7 +256,6 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                                       if (homePageController
                                               .getImageStatus.value ==
                                           "0") {
-                                        // 🛑 Block further swipes in this direction
                                         if (swipeDir == "1") {
                                           homePageController
                                               .canSwipeRight.value = false;
@@ -287,11 +275,9 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                                         homePageController.isReverting.value =
                                             false;
 
-                                        return; // ✅ stop further logic
+                                        return;
                                       }
-                                    } catch (e) {
-                                      debugPrint("❌ getImageSlider failed: $e");
-                                    }
+                                    } catch (e) {}
                                   }
                                 },
 
@@ -365,7 +351,6 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                                               .id
                                               .toString(),
                                           "3");
-
                                       homePageController.getWhislist(context);
                                     },
                                     child: CustomSvgImage(
@@ -413,6 +398,11 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                       )
                     ],
                   ),
+                ),
+                Obx(
+                  () => homePageController.isWallpaperLoading.value
+                      ? LinearProgressIndicator()
+                      : SizedBox(),
                 ),
                 getheight(context, 0.020),
                 Obx(
@@ -511,10 +501,6 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                                 //  pageNavigation(UpgradePrimiumPage());
                               }
                             },
-                            // print(homePageController
-                            //     .categoryDetailList[homePageController
-                            //         .albumPageController.sliderIndex.value]
-                            //     .bookingType),
                             child: Container(
                               alignment: Alignment.center,
                               height: 35.h,
@@ -540,7 +526,7 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                                   // ? "Book Now".f16w4(
                                   //     fontSize: 12.sp, fontWeight: FontWeight.w500)
                                   ? "Enquiry Now".f16w4(
-                                      fontSize: 12.sp,
+                                      fontSize: 10.sp,
                                       fontWeight: FontWeight.w500)
                                   : "Enquiry Now".f16w4(
                                       fontSize: 10.sp,

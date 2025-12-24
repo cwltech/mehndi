@@ -13,12 +13,12 @@ import 'package:get/get.dart';
 
 class SearchPage extends GetView<AlbumPageController> {
   const SearchPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: KColors.pinkColor.withValues(alpha: 0.5),
           title: "Search".f14w4(
               textColor: KColors.persistentBlack,
               fontFamily: Fontfamily.poppins,
@@ -29,41 +29,46 @@ class SearchPage extends GetView<AlbumPageController> {
             height15,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: getHorizontalSize(20)),
-              child: CustomTextFormField(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: getVerticalSize(7)),
-                inputType: TextInputType.name,
-                hintcolor: KColors.grey,
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: KColors.grey,
-                  size: 20.h,
-                ),
-                isSuffix: true,
-                suffixIcon: TextButton(
-                  onPressed: () {
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: KColors.grey),
+                    borderRadius: BorderRadius.circular(10)),
+                child: CustomTextFormField(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: getVerticalSize(7)),
+                  inputType: TextInputType.name,
+                  hintcolor: KColors.grey,
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: KColors.grey,
+                    size: 20.h,
+                  ),
+                  isSuffix: true,
+                  suffixIcon: TextButton(
+                    onPressed: () {
+                      controller.search(
+                        context,
+                      );
+                    },
+                    child: "Search"
+                        .f14w4(
+                            textColor: KColors.persistentBlack,
+                            fontFamily: Fontfamily.poppins,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.sp)
+                        .paddingAll(8),
+                  ),
+                  controller: controller.searchController,
+                  borderRadius: 10,
+                  hint: "search...",
+                  fillColor: Colors.transparent,
+                  validator: (value) => Validation.emptyValidation(value!),
+                  onFieldSubmitted: (p0) {
                     controller.search(
                       context,
                     );
                   },
-                  child: "Search"
-                      .f14w4(
-                          textColor: KColors.persistentBlack,
-                          fontFamily: Fontfamily.poppins,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10.sp)
-                      .paddingAll(8),
                 ),
-                controller: controller.searchController,
-                borderRadius: 10,
-                hint: "search...",
-                fillColor: Colors.transparent,
-                validator: (value) => Validation.emptyValidation(value!),
-                onFieldSubmitted: (p0) {
-                  controller.search(
-                    context,
-                  );
-                },
               ),
             ),
             height10,

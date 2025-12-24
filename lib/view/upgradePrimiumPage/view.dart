@@ -30,12 +30,6 @@ class _UpgradePrimiumPageState extends State<UpgradePrimiumPage> {
     * 3. Metadata
     * */
     controller.transactionStatus.value = "Failure";
-    print("Payment Failed" +
-        "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
-    // controller.updatePackageDetail(
-    //   context,
-    // );
-    // showAlertDialog(context, "Payment Failed", "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
@@ -46,7 +40,7 @@ class _UpgradePrimiumPageState extends State<UpgradePrimiumPage> {
     * 3. Signature
     * */
     controller.transactionStatus.value = "Success";
-    print("Payment Successful" + "Payment ID: ${response.paymentId}");
+
     controller.updatePackageDetail(
       context,
     );

@@ -24,13 +24,13 @@ class UpgradePackageModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['price'] = this.price;
-    data['package_name'] = this.packageName;
-    data['text_1'] = this.text1;
-    data['text_2'] = this.text2;
-    data['text_3'] = this.text3;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['price'] = price;
+    data['package_name'] = packageName;
+    data['text_1'] = text1;
+    data['text_2'] = text2;
+    data['text_3'] = text3;
     return data;
   }
 }

@@ -241,7 +241,7 @@ class Showsubcategorypage extends GetView<HomePageController> {
                                                                     bottom:
                                                                         10.h),
                                                             width: Get.width,
-                                                            height: 20.h,
+                                                            height: 25.h,
                                                             decoration:
                                                                 BoxDecoration(
                                                                     color: KColors
@@ -252,21 +252,31 @@ class Showsubcategorypage extends GetView<HomePageController> {
                                                                       e]
                                                                   .subcat!,
                                                               style: TextStyle(
-                                                                  color: KColors
-                                                                      .background,
-                                                                  fontFamily: Fontfamily.poppins,
-                                                                  fontWeight: FontWeight.w600,
-                                                                  fontSize: 8.sp,
-                                                                  shadows: [
-                                                                    Shadow(
-                                                                        color: KColors
-                                                                            .white,
-                                                                        offset: Offset(
-                                                                            2,
-                                                                            3),
-                                                                        blurRadius:
-                                                                            15)
-                                                                  ]),
+                                                                color: KColors
+                                                                    .background,
+                                                                fontFamily:
+                                                                    Fontfamily
+                                                                        .poppins,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize:
+                                                                    7.4.sp,
+                                                                shadows: [
+                                                                  Shadow(
+                                                                      color: KColors
+                                                                          .white,
+                                                                      offset:
+                                                                          Offset(
+                                                                              2,
+                                                                              3),
+                                                                      blurRadius:
+                                                                          15)
+                                                                ],
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
                                                             )),
                                                       ],
                                                     ),
@@ -287,12 +297,6 @@ class Showsubcategorypage extends GetView<HomePageController> {
               ),
             ],
           ),
-          // Container(
-          //   color: Colors.transparent,
-          //   height: 65.h,
-          //   width: Get.width,
-          //   child: AdWidget(ad: bannerAd1!),
-          // ),
         ],
       ),
     );

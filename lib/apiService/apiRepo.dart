@@ -2,12 +2,11 @@ import 'dart:convert';
 import 'package:catalougeapp/apiService/apiErrorHandling.dart';
 import 'package:catalougeapp/apiService/apiService.dart';
 import 'package:catalougeapp/apiService/service_constant.dart';
+import 'package:catalougeapp/utils/colors.dart';
+import 'package:catalougeapp/utils/customToast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Response;
-import 'package:get/get_core/src/get_main.dart';
-import 'package:http/http.dart' as http;
 
 class ApiRepo {
   final Api _api = Api();
@@ -23,19 +22,37 @@ class ApiRepo {
 
   Future signIn(data, context) async {
     try {
-      final response = await _api.request
-          .post(ServiceConstant.singIn, data: data, options: options);
+      final response = await _api.request.post(
+        ServiceConstant.singIn,
+        data: data,
+        options: options,
+      );
+
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -44,16 +61,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.updateToken, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -62,18 +93,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.otpVerify, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
-        // Get.snackbar("Error", response.statusCode.toString(),
-        //     snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red);
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -84,60 +127,11 @@ class ApiRepo {
         options: options,
       );
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
-      } else {
-        ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
-    }
-  }
-
-  // Future<Map<String, dynamic>?> getPopupNotification() async {
-  //   try {
-  //     final url = Uri.parse("https://mehendiwalaa.com/getPopupNotification");
-
-  //     final response = await http.get(
-  //       url,
-  //       headers: {"Accept": "application/json"},
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       final Map<String, dynamic> decoded = jsonDecode(response.body);
-  //       debugPrint("Decoded popup response: $decoded");
-  //       return decoded; // must return the Map
-  //     } else {
-  //       debugPrint("Popup API failed: ${response.statusCode}");
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     debugPrint("Popup API exception: $e");
-  //     return null;
-  //   }
-  // }
-
-  Future<Map<String, dynamic>?> getPopupNotification(
-      BuildContext context) async {
-    try {
-      final response = await _api.request.get(
-        ServiceConstant.getPopUpNotification,
-        options: options,
-      );
-
-      if (response.statusCode == 200) {
-        final data =
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
             response.data is String ? jsonDecode(response.data) : response.data;
 
-        if (data is Map<String, dynamic>) {
-          return data;
-        } else {
-          if (kDebugMode) {}
-          return null;
-        }
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
           response.statusCode.toString(),
@@ -145,10 +139,52 @@ class ApiRepo {
         );
         return null;
       }
-    } catch (e, s) {
-      if (kDebugMode) {
-        debugPrint("getPopupNotification error: $e\n$s");
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
+    } catch (e) {
+      debugPrint("❌ Unexpected error: $e");
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>?> getPopupNotification(context) async {
+    try {
+      final response = await _api.request.get(
+        ServiceConstant.getPopUpNotification,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
+      } else {
+        ErrorHandling.getExceptionMessage(
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
+    } catch (e) {
+      debugPrint("❌ Unexpected error: $e");
       return null;
     }
   }
@@ -158,16 +194,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.getSubCategory, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -178,16 +228,30 @@ class ApiRepo {
         options: options,
       );
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -198,16 +262,30 @@ class ApiRepo {
         options: options,
       );
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -218,16 +296,30 @@ class ApiRepo {
         options: options,
       );
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -238,16 +330,30 @@ class ApiRepo {
           data: data,
           options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -256,16 +362,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.saveView, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -274,16 +394,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.saveWhislist, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -292,16 +426,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.getWhislist, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -310,16 +458,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.deleteWhislist, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -328,16 +490,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.search, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -346,34 +522,66 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.catelougeDetail, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
-  Future getProfile(data, context) async {
+  Future<Map<String, dynamic>?> getProfile(dynamic data, context) async {
     try {
-      final response = await _api.request
-          .post(ServiceConstant.getProfile, data: data, options: options);
+      final response = await _api.request.post(
+        ServiceConstant.getProfile,
+        data: data,
+        options: options,
+      );
+
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -382,16 +590,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.updateProfile, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -400,16 +622,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.catelougeType, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -418,16 +654,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.filter, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -436,16 +686,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.sendEnquiry, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -454,16 +718,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.imageSlider, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -474,16 +752,30 @@ class ApiRepo {
         options: options,
       );
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -494,16 +786,30 @@ class ApiRepo {
           data: data,
           options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -514,16 +820,30 @@ class ApiRepo {
         options: options,
       );
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -534,16 +854,30 @@ class ApiRepo {
           data: data,
           options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 
@@ -552,16 +886,30 @@ class ApiRepo {
       final response = await _api.request
           .post(ServiceConstant.getEnquiry, data: data, options: options);
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.data) as Map<String, dynamic>;
-        return responseData;
+        // Handle case where Dio returns a JSON string or map
+        final responseData =
+            response.data is String ? jsonDecode(response.data) : response.data;
+
+        return responseData as Map<String, dynamic>;
       } else {
         ErrorHandling.getExceptionMessage(
-            response.statusCode.toString(), context);
+          response.statusCode.toString(),
+          context,
+        );
+        return null;
       }
+    } on DioException catch (e) {
+      customToast(
+        "No Internet Connection",
+        KColors.red.withValues(alpha: 0.7),
+        context,
+      );
+      debugPrint(e.toString());
+
+      return null;
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint(e.toString());
-      }
+      debugPrint("❌ Unexpected error: $e");
+      return null;
     }
   }
 }

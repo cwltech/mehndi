@@ -8,6 +8,7 @@ class ErrorHandling {
     if (error is DioException) {
       switch (error.type) {
         case DioExceptionType.connectionError: // no internet or DNS issue
+
           customToast(
             "No Internet Connection",
             KColors.red.withValues(alpha: 0.7),
@@ -45,6 +46,7 @@ class ErrorHandling {
         context,
       );
     } else {
+      // _handleHttpError(error, context);
       customToast(
         "Unexpected error occurred",
         KColors.red.withValues(alpha: 0.7),

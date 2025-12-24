@@ -286,7 +286,8 @@ class LogoutButton extends StatelessWidget {
           //         builder: (BuildContext context) => LoginPage()),
           //     (Route<dynamic> route) => false);
           // Get.offAll(const LoginPage());
-        },
+        }, 
+        
         child:
             text!.f16w4(textColor: KColors.persistentBlack, fontSize: 12.sp));
   }

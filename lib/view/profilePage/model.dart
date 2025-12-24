@@ -1,7 +1,7 @@
 class ProfileModel {
   String? id;
   String? fname;
-  Null? lname;
+  Null lname;
   String? email;
   String? mobile;
   String? gender;
@@ -50,16 +50,16 @@ class EnquiryModel {
     if (json['catalogue'] != null) {
       catalogue = <Catalogue>[];
       json['catalogue'].forEach((v) {
-        catalogue!.add(new Catalogue.fromJson(v));
+        catalogue!.add(Catalogue.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date;
-    if (this.catalogue != null) {
-      data['catalogue'] = this.catalogue!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['date'] = date;
+    if (catalogue != null) {
+      data['catalogue'] = catalogue!.map((v) => v.toJson()).toList();
     }
     return data;
   }

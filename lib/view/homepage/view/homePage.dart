@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:catalougeapp/utils/colors.dart';
 import 'package:catalougeapp/utils/constantValue.dart';
 import 'package:catalougeapp/utils/customImageProvider.dart';
@@ -8,18 +6,18 @@ import 'package:catalougeapp/utils/fontfamilly.dart';
 import 'package:catalougeapp/utils/pageNavigation.dart';
 import 'package:catalougeapp/utils/sizeHelper.dart';
 import 'package:catalougeapp/view/homepage/controller/controller.dart';
+import 'package:catalougeapp/view/homepage/view/aboutUsPage.dart';
+import 'package:catalougeapp/view/homepage/view/contactUsPage.dart';
 import 'package:catalougeapp/view/homepage/widget.dart';
 import 'package:catalougeapp/view/profilePage/view/view.dart';
 import 'package:catalougeapp/view/termsAndConditionPage/privacyPolicesPage.dart';
 import 'package:catalougeapp/view/termsAndConditionPage/termsandConditonPage.dart';
-import 'package:catalougeapp/view/whislistPage/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
 import '../../../utils/reviewHelper.dart';
 
 class HomePage extends GetView<HomePageController> {
@@ -33,56 +31,58 @@ class HomePage extends GetView<HomePageController> {
           child: ListView(
             children: [
               DrawerHeader(
+                  decoration: BoxDecoration(
+                      color: KColors.pinkColor.withValues(alpha: 0.4)),
                   child: Obx(
-                () => Column(
-                  children: [
-                    Obx(
-                      () => CircleAvatar(
-                        backgroundColor: KColors.mehroom.withValues(alpha: 0.7),
-                        radius: 30.h,
-                        backgroundImage: controller.profilePageController
-                                .profileModel.value.image!.isNotEmpty
-                            ? NetworkImage(controller
-                                .profilePageController.profileModel.value.image
-                                .toString())
-                            // FileImage(File(controllers.profileImagePath.value))
-                            : null,
-                        child: (controller.profilePageController.profileModel
-                                        .value.image ==
-                                    null ||
-                                controller.profilePageController.profileModel
-                                    .value.image!.isEmpty)
-                            ? Icon(
-                                Icons.person,
-                                color: KColors.white,
-                              )
-                            : null,
-                      ),
+                    () => Column(
+                      children: [
+                        Obx(
+                          () => CircleAvatar(
+                            backgroundColor:
+                                KColors.mehroom.withValues(alpha: 0.7),
+                            radius: 30.h,
+                            backgroundImage: controller.profilePageController
+                                    .profileModel.value.image!.isNotEmpty
+                                ? NetworkImage(controller.profilePageController
+                                    .profileModel.value.image
+                                    .toString())
+                                // FileImage(File(controllers.profileImagePath.value))
+                                : null,
+                            child: (controller.profilePageController
+                                            .profileModel.value.image ==
+                                        null ||
+                                    controller.profilePageController
+                                        .profileModel.value.image!.isEmpty)
+                                ? Icon(
+                                    Icons.person,
+                                    color: KColors.white,
+                                  )
+                                : null,
+                          ),
+                        ),
+                        controller.profilePageController.profileModel.value
+                                    .fname ==
+                                null
+                            ? "Not Available".toString().f16w4(
+                                  textColor: KColors.persistentBlack,
+                                  fontFamily: Fontfamily.poppins,
+                                  fontWeight: FontWeight.w600,
+                                )
+                            : controller
+                                .profilePageController.profileModel.value.fname
+                                .toString()
+                                .f16w4(
+                                  textColor: KColors.persistentBlack,
+                                  fontFamily: Fontfamily.poppins,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                      ],
                     ),
-                    controller.profilePageController.profileModel.value.fname ==
-                            null
-                        ? "Not Available".toString().f16w4(
-                              textColor: KColors.persistentBlack,
-                              fontFamily: Fontfamily.poppins,
-                              fontWeight: FontWeight.w600,
-                            )
-                        : controller
-                            .profilePageController.profileModel.value.fname
-                            .toString()
-                            .f16w4(
-                              textColor: KColors.persistentBlack,
-                              fontFamily: Fontfamily.poppins,
-                              fontWeight: FontWeight.w600,
-                            ),
-                  ],
-                ),
-              )),
-              customListTile("Terms & Conditions", () {
-                pageNavigation(TermsAndConditionsPage());
-              }),
-              customListTile("Privacy Policy", () {
-                pageNavigation(PrivacyPolicesPage());
-              }),
+                  )),
+              customListTile("Terms & Conditions",
+                  () => pageNavigation(TermsAndConditionsPage())),
+              customListTile(
+                  "Privacy Policy", () => pageNavigation(PrivacyPolicesPage())),
               customListTile("App share", () {
                 Share.share(controller.termsAndConditionData.value.shareLink!);
                 // launchUrlString(
@@ -103,9 +103,13 @@ class HomePage extends GetView<HomePageController> {
                       "https://play.google.com/store/apps/details?id=com.catalougeapp.app");
                 }
               }),
-              customListTile("Enquiry", () {
-                pageNavigation(WhislistPage());
-              }),
+              customListTile(
+                  "Enquiry",
+                  () => controller
+                      .mainPageController.bottomNavigationBarindex.value = 2),
+              customListTile(
+                  "Contact Us", () => pageNavigation(ContactusPage())),
+              customListTile("About Us", () => pageNavigation(AboutUsPage())),
             ],
           ),
         ),
@@ -156,15 +160,12 @@ class HomePage extends GetView<HomePageController> {
           ],
         ),
         body: RefreshIndicator(
-          onRefresh: () async {
-           controller.   getBanner(Get.context);
-          },
+          onRefresh: () => controller.getBanner(Get.context),
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: getHorizontalSize(2)),
             children: [
               height10,
               const CustomCarouselSlider(),
-
               height10,
               // getheight(context, 0.020),
               Container(
@@ -179,19 +180,27 @@ class HomePage extends GetView<HomePageController> {
 
               Obx(
                 () => SizedBox(
-                    child: Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    ...Iterable.generate(controller.categoryList.length)
-                        .map((e) {
-                      return CommonCategoryWidget(
-                        controller: controller,
-                        list: controller.categoryList,
-                        index: e,
-                      );
-                    })
-                  ],
-                )),
+                    child: controller.isCategoryDataLoading.value
+                        ? SizedBox(
+                            height: 400.h,
+                            child: RepaintBoundary(
+                                child:
+                                    Center(child: CircularProgressIndicator())),
+                          )
+                        : Wrap(
+                            alignment: WrapAlignment.center,
+                            children: [
+                              ...Iterable.generate(
+                                      controller.categoryList.length)
+                                  .map((e) {
+                                return CommonCategoryWidget(
+                                  controller: controller,
+                                  list: controller.categoryList,
+                                  index: e,
+                                );
+                              })
+                            ],
+                          )),
               ),
             ],
           ),

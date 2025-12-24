@@ -17,11 +17,11 @@ class TermsAndPolicyModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['share_link'] = this.shareLink;
-    data['rating_link'] = this.ratingLink;
-    if (this.pageData != null) {
-      data['pageData'] = this.pageData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['share_link'] = shareLink;
+    data['rating_link'] = ratingLink;
+    if (pageData != null) {
+      data['pageData'] = pageData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -33,7 +33,6 @@ class PageData {
   String? description;
 
   PageData({this.id, this.heading, this.description});
-
   PageData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     heading = json['heading'];
@@ -42,9 +41,9 @@ class PageData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['heading'] = this.heading;
-    data['description'] = this.description;
+    data['id'] = id;
+    data['heading'] = heading;
+    data['description'] = description;
     return data;
   }
 }

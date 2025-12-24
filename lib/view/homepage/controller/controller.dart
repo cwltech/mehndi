@@ -89,7 +89,10 @@ class HomePageController extends GetxController {
 
   final WallpaperManagerPlus wallpaperManagerPlus = WallpaperManagerPlus();
 
+  RxBool isWallpaperLoading = false.obs;
+
   Future<void> setwallpaper(location, String img, context) async {
+    isWallpaperLoading.value = true;
     final file = await DefaultCacheManager().getSingleFile(img);
     try {
       final result = await wallpaperManagerPlus.setWallpaper(file, location);
@@ -106,6 +109,8 @@ class HomePageController extends GetxController {
       );
       debugPrint(e.toString());
     }
+
+    isWallpaperLoading.value = false;
   }
 
   setWallpaper(context, String image) {
@@ -214,7 +219,7 @@ class HomePageController extends GetxController {
   }
 
   Timer? _usageTimer;
-  Future<void> _checkAndStartTimer() async {
+  Future<void> checkAndStartTimer() async {
     final prefs = await SharedPreferences.getInstance();
     bool alreadyShown = prefs.getBool("reviewPopupShown") ?? false;
 
@@ -227,6 +232,24 @@ class HomePageController extends GetxController {
   }
 
   Future<void> getTermsAndCondition(context) async {
+    try {
+      await ApiRepo().getTermsAndConditionPage(context).then((value) async {
+        if (value["status"] == "1") {
+          termsAndConditionData.value =
+              TermsAndPolicyModel.fromJson(value["data"]);
+        } else {
+          termsAndConditionData.value =
+              TermsAndPolicyModel.fromJson(value["data"]);
+        }
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint(e.toString());
+      }
+    }
+  }
+
+  Future<void> getAboutUs(context) async {
     try {
       await ApiRepo().getTermsAndConditionPage(context).then((value) async {
         if (value["status"] == "1") {
@@ -274,8 +297,10 @@ class HomePageController extends GetxController {
     }
   }
 
+  RxBool isCategoryDataLoading = false.obs;
+
   Future<void> getCategoryList(context) async {
-    //showloadingIndicators();
+    isCategoryDataLoading.value = true;
     try {
       await ApiRepo().getCategory(context).then((value) async {
         if (value["status"] == "1") {
@@ -290,7 +315,7 @@ class HomePageController extends GetxController {
         debugPrint(e.toString());
       }
     }
-    hideLoading();
+    isCategoryDataLoading.value = false;
   }
 
   Future<void> getSubCategory(context, String id) async {
@@ -398,65 +423,6 @@ class HomePageController extends GetxController {
   RxInt pagiNationValue = 0.obs;
   RxBool hasMoreData = true.obs;
 
-  // Future<void> catelougeListByCategory(
-  //   context,
-  //   String id,
-  //   String subCategoryId,
-  // ) async {
-  //   final formData = dio.FormData.fromMap({
-  //     "category": id,
-  //     "subcat": subCategoryId,
-  //     "start": pagiNationValue.value * 10,
-  //   });
-  //
-  //   // catelougeListByCategoryList.clear();
-  //   try {
-  //     showloadingIndicators();
-  //     await ApiRepo()
-  //         .catelougeListBtCategory(formData, context)
-  //         .then((value) async {
-  //       if (value["status"] == "1") {
-  //         catelougeListByCategoryList2.value = (value["data"] as List)
-  //             .map((e) => CatelougeListByCategoryModel.fromJson(e))
-  //             .toList();
-  //         // if (pagiNationValue.value != 0) {
-  //         //   catelougeListByCategoryList =
-  //         //       catelougeListByCategoryList + catelougeListByCategoryList2;
-  //         // } else {
-  //         //   catelougeListByCategoryList.value = (value["data"] as List)
-  //         //       .map((e) => CatelougeListByCategoryModel.fromJson(e))
-  //         //       .toList();
-  //         // }
-  //         if (pagiNationValue.value != 0) {
-  //           final existingIds =
-  //               catelougeListByCategoryList.map((e) => e.id).toSet();
-  //
-  //           final newItems = catelougeListByCategoryList2
-  //               .where((e) => !existingIds.contains(e.id))
-  //               .toList();
-  //
-  //           catelougeListByCategoryList.addAll(newItems);
-  //         } else {
-  //           catelougeListByCategoryList.value = catelougeListByCategoryList2;
-  //         }
-  //         hideLoading();
-  //       } else {
-  //         // if (pagiNationValue.value != 0) {
-  //         // } else {
-  //         //   catelougeListByCategoryList.value = (value["data"] as List)
-  //         //       .map((e) => CatelougeListByCategoryModel.fromJson(e))
-  //         //       .toList();
-  //         // }
-  //       }
-  //     });
-  //     hideLoading();
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print(e);
-  //     }
-  //   }
-  // }
-
   Future<void> catelougeListByCategory(
     context,
     String id,
@@ -467,10 +433,6 @@ class HomePageController extends GetxController {
       "subcat": subCategoryId,
       "start": pagiNationValue.value * 10, // offset = page * limit
     });
-
-    print('selected ids:');
-    print('selected catId:$id');
-    print('selected subCatId:$subCategoryId');
 
     try {
       // ✅ show loader only for first page
@@ -612,11 +574,7 @@ class HomePageController extends GetxController {
       "side": side,
       "user_id": localStorage.userid.value,
     });
-    // print("cat id $id");
-    // print("subcat id $subcat");
-    // print("catalog id $catelougeIds");
-    // print("side id $side");
-    // print("user id ${localStorage.userid.value}");
+
     try {
       isLoading.value = true;
 
@@ -668,8 +626,6 @@ class HomePageController extends GetxController {
       // showloadingIndicators();
       await ApiRepo().saveNotification(formData, context).then((value) async {
         if (value["status"] == "1") {
-          print("888888888888888888888888888");
-          print("succes");
         } else {}
       });
       hideLoading();
@@ -679,22 +635,6 @@ class HomePageController extends GetxController {
       }
     }
   }
-
-  // Future<void> getEnquiry(context) async {
-  //   try {
-  //     await ApiRepo().getHomeSubCategoryList(context).then((value) async {
-  //       if (value["status"] == "1") {
-  //         getHomeSubCategoryList.value = (value["data"] as List)
-  //             .map((e) => HomeSubcategoryModel.fromJson(e))
-  //             .toList();
-  //       } else {}
-  //     });
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       debugPrint(e.toString());
-  //     }
-  //   }
-  // }
 
   @override
   void onReady() {

@@ -117,6 +117,7 @@ class AlbumPageController extends GetxController {
   }
 
   RxString selectedDate = "".obs;
+  RxBool isselectedDate = false.obs;
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime today = DateTime.now();
@@ -143,6 +144,7 @@ class AlbumPageController extends GetxController {
 
     if (pickedDate != null) {
       selectedDate.value = pickedDate.toString();
+      isselectedDate.value = true;
       print('📅 Selected date: ${selectedDate.value}');
     }
   }

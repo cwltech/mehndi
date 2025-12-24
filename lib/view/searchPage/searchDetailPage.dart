@@ -13,12 +13,11 @@ import 'package:catalougeapp/view/homepage/controller/controller.dart';
 import 'package:catalougeapp/view/homepage/widget.dart';
 import 'package:catalougeapp/view/upgradePrimiumPage/view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'dart:math';
-// import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 
 // import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 
@@ -51,17 +50,17 @@ class _SearchDeatilPageState extends State<SearchDeatilPage> {
       // Create an image name
       var filename = '${dir.path}/SaveImage${random.nextInt(100)}.png';
 
-      // Save to filesystemwww
+      // Save to filesystem
       final file = File(filename);
       await file.writeAsBytes(response.bodyBytes);
 
-      // Ask the user to save it dsdsssggsx
-      // final params = SaveFileDialogParams(sourceFilePath: file.path);
-      // final finalPath = await FlutterFileDialog.saveFile(params: params);
+      // Ask the user to save it
+      final params = SaveFileDialogParams(sourceFilePath: file.path);
+      final finalPath = await FlutterFileDialog.saveFile(params: params);
 
-      // if (finalPath != null) {
-      //   message = 'Image saved to disk';
-      // }
+      if (finalPath != null) {
+        message = 'Image saved to disk';
+      }
     } catch (e) {
       message = e.toString();
       scaffoldMessenger.showSnackBar(SnackBar(

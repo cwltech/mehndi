@@ -53,10 +53,12 @@ class _MainPageState extends State<MainPage> {
     _checkAndStartTimer();
     //loginController.updateToken(context);
     Future.delayed(Duration.zero, () async {
+      // ignore: use_build_context_synchronously
       await controller.getPopUpNotification(context);
+      // ignore: use_build_context_synchronously
       await loginController.updateToken(context);
       controller.popUpNotificationData.value.status == "1"
-          ? Future.delayed(const Duration(seconds: 60), () {
+          ? Future.delayed(const Duration(seconds: 40), () {
               if (!mounted || _popupShown) return;
               if (localStorage.userid.value != null) {
                 _popupShown = true;
@@ -70,17 +72,17 @@ class _MainPageState extends State<MainPage> {
   Future<void> _checkAndStartTimer() async {
     final prefs = await SharedPreferences.getInstance();
 
-    debugPrint("⏳ Waiting before showing review dialog...");
+    debugPrint(" Waiting before showing review dialog...");
 
-    _usageTimer = Timer(const Duration(seconds: 90), () async {
+    _usageTimer = Timer(const Duration(seconds: 10), () async {
       try {
         await ReviewHelper.requestReview();
 
         // ✅ Mark as shown — user won’t see again
         await prefs.setBool("reviewPopupShown", true);
-        debugPrint("✅ reviewPopupShown set true after successful request");
+        debugPrint(" reviewPopupShown set true after successful request");
       } catch (e) {
-        debugPrint("⚠️ Review request failed: $e");
+        debugPrint(" Review request failed: $e");
       }
     });
   }
@@ -103,7 +105,6 @@ class _MainPageState extends State<MainPage> {
             children: [
               const Text("How would you rate your experience?"),
               const SizedBox(height: 10),
-
               // ⭐ Rating bar
               RatingBar.builder(
                 initialRating: 0,
@@ -188,10 +189,11 @@ class _MainPageState extends State<MainPage> {
         child: InteractiveViewer(
             // optional: allows zooming/panning
             child: Container(
-          margin: EdgeInsets.symmetric(vertical: getVerticalSize(110)),
+          margin: EdgeInsets.symmetric(vertical: getVerticalSize(180)),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(image: NetworkImage(data.image!))),
+              image: DecorationImage(
+                  image: NetworkImage(data.image!), fit: BoxFit.cover)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -209,9 +211,19 @@ class _MainPageState extends State<MainPage> {
               ),
               InkWell(
                 onTap: () async {
-                  await homePageController.getSubCategory(
-                      context, data.categoryId.toString());
-                  pageNavigation(Showsubcategorypage());
+                  final uri = Uri.tryParse(data.text!);
+                  var isValidUrl = uri != null &&
+                      (uri.scheme == 'http' || uri.scheme == 'https') &&
+                      uri.hasAuthority;
+                  if (isValidUrl) {
+                    if (!await launchUrl(Uri.parse(data.text!))) {
+                      throw Exception('Could not launch ${data.text!}');
+                    }
+                  } else {
+                    await homePageController.getSubCategory(
+                        context, data.categoryId.toString());
+                    pageNavigation(Showsubcategorypage());
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -224,7 +236,8 @@ class _MainPageState extends State<MainPage> {
                   height: 45.h,
                   width: Get.width,
                   padding: const EdgeInsets.all(12),
-                  child: data.text!.f16w4(),
+                  child: data.text!
+                      .f16w4(overflow: TextOverflow.ellipsis, fontSize: 14.sp),
                 ),
               ),
               // ),

@@ -44,7 +44,7 @@ class ProfilePageController extends GetxController {
 
     try {
       await ApiRepo().getProfile(formData, context).then((value) async {
-        if (value["status"] == "1") {
+        if (value!["status"] == "1") {
           profileModel.value = ProfileModel.fromJson(value["data"]);
           pref.setString("autoMob", profileModel.value.mobile!);
           pref.setString("autoName", profileModel.value.fname!);

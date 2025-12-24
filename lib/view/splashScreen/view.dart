@@ -17,13 +17,12 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   String token = "";
-  // String _fcmToken = "";
+
   @override
   void initState() {
     getToken();
     pageNavigation();
     requestNotificationPermission();
-    // initFirebaseMessaging();
     super.initState();
   }
 
@@ -42,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       // Initialize with your OneSignal App ID
       OneSignal.initialize(dotenv.env['AppId']!);
+
       // Use this method to prompt for push notifications.
       // We recommend removing this method after testing and instead use In-App Messages to prompt for notification permission.
       // await OneSignal.Notifications.requestPermission(true);
@@ -49,17 +49,6 @@ class _SplashScreenState extends State<SplashScreen> {
       debugPrint(" Notification permission denied");
     }
   }
-
-  // check if action perform on button to notification
-
-//   Future<void> checkNotificationPermission() async {
-//   var status = await Permission.notification.status;
-//   if (status.isGranted) {
-//     print(" Notifications allowed");
-//   } else {
-//     print(" Notifications disabled");
-//   }
-// }
 
   pageNavigation() async {
     await Future.delayed(
@@ -80,7 +69,6 @@ class _SplashScreenState extends State<SplashScreen> {
             width: Get.width,
             color: KColors.white,
             child: CustomImageProvider.assetsImage(
-                //image: ConstantValue.splashgif,
                 image: 'assets/images/Mobile apps screening2 (1).gif',
                 height: Get.height,
                 width: Get.width,
@@ -91,8 +79,6 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       token = pref.getString("userId2")!;
-      // debugPrint("userid");
-      // print(token);
     });
     return token;
   }

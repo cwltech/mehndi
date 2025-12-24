@@ -16,14 +16,14 @@ class CategoryMenu extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     return Container(
       color: KColors.grey.withValues(alpha: 0.1),
-      height: 93.h,
+      height: 105.h,
       width: Get.width,
       child: Obx(
         () => ListView.builder(
           padding: const EdgeInsets.only(left: 0),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            final isSelected = index == controller.indexes.value;
+            // final isSelected = index == controller.indexes.value;
             return InkWell(
               onTap: () async {
                 controller.indexes.value = index;
@@ -93,19 +93,22 @@ class CategoryMenu extends GetView<HomePageController> {
                           //   ),
                           // ),
 
-                          SizedBox(
-                            // width: 50,
-                            child: controller
-                                .subCategoryListUpdate[index].subcat
-                                .toString()
-                                .f13w5(
-                                    textColor: isSelected
-                                        ? KColors.purpleColor
-                                        : KColors.persistentBlack,
-                                    fontSize: 9.sp,
-                                    fontFamily: Fontfamily.montserrat,
-                                    fontWeight: FontWeight.w700,
-                                    textAlign: TextAlign.center),
+                          Obx(
+                            () => SizedBox(
+                              width: 100,
+                              child: controller
+                                  .subCategoryListUpdate[index].subcat
+                                  .toString()
+                                  .f13w5(
+                                      textColor:
+                                          controller.indexes.value == index
+                                              ? KColors.purpleColor
+                                              : KColors.persistentBlack,
+                                      fontSize: 9.sp,
+                                      fontFamily: Fontfamily.montserrat,
+                                      fontWeight: FontWeight.w700,
+                                      textAlign: TextAlign.center),
+                            ),
                           )
                         ],
                       ),
