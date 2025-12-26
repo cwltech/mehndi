@@ -8,6 +8,7 @@ import 'package:catalougeapp/view/homepage/widget.dart';
 import 'package:catalougeapp/view/login/view/loginPage.dart';
 import 'package:catalougeapp/view/profilePage/controller/controller.dart';
 import 'package:catalougeapp/view/profilePage/view/editProfilePage.dart';
+import 'package:catalougeapp/view/signupPage/view.dart';
 import 'package:catalougeapp/view/termsAndConditionPage/privacyPolicesPage.dart';
 import 'package:catalougeapp/view/termsAndConditionPage/termsandConditonPage.dart';
 import 'package:flutter/material.dart';
@@ -330,6 +331,58 @@ class ProfilePage extends GetView<ProfilePageController> {
                   },
                   "OK",
                 ),
+              ),
+              Divider(
+                color: KColors.grey.withValues(alpha: 0.2),
+              ),
+              ListTile(
+                title: Row(
+                  children: [
+                    "Delete account".f16w4(
+                        textColor: KColors.persistentBlack,
+                        fontFamily: Fontfamily.poppins,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12.h,
+                    )
+                  ],
+                ),
+                onTap: () => showLogoutDialog(
+                  context,
+                  "Delete account",
+                  "Are you sure you want Delete account!",
+                  () async {
+                    final signInController = Get.find<SignInPageController>();
+                    SharedPreferences pref =
+                        await SharedPreferences.getInstance();
+                    await pref.clear();
+                    await pref.remove("autoMob");
+                    await pref.remove("autoName");
+                    await pref.remove("userId2");
+                    await pref.remove("userId");
+                    await pref.remove("fcm_token");
+                    await pref.remove("reviewPopupShown");
+                    signInController.phoneController.clear();
+                    signInController.isPhoneNumberLength.value = false;
+                    signInController.formKey.currentState?.reset();
+
+                    if (Get.isRegistered<SignInPageController>()) {
+                      Get.delete<SignInPageController>(force: true);
+                    }
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const SignUpPage()),
+                        (Route<dynamic> route) => false);
+                  },
+                  "OK",
+                ),
+              ),
+              Divider(
+                color: KColors.grey.withValues(alpha: 0.2),
               ),
             ],
           ),

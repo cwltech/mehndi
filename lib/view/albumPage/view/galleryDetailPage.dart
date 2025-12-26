@@ -544,18 +544,44 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                     child: homePageController.catelougeDescription.value
                         .toString()
                         .f16w6(
-                            textColor: KColors.persistentBlack,
+                            textColor: KColors.persistentBlack, 
                             fontSize: 10.sp,
                             fontFamily: Fontfamily.poppins)
                         .paddingAll(10),
                   ),
                 ),
-                homePageController.setWallpaper(
-                    context,
-                    homePageController
-                        .categoryDetailList[homePageController
-                            .albumPageController.sliderIndex.value]
-                        .image!)
+                Platform.isIOS
+                    ? homePageController.setWallpaper(
+                        context,
+                        homePageController
+                            .categoryDetailList[homePageController
+                                .albumPageController.sliderIndex.value]
+                            .image!)
+                    : InkWell(
+                        onTap: () => saveImage(
+                            context,
+                            homePageController
+                                .categoryDetailList[homePageController
+                                    .albumPageController.sliderIndex.value]
+                                .image!),
+                        child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10.w),
+                            alignment: Alignment.center,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                color: KColors.background,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    KColors.pinkColor,
+                                    KColors.purpleColor
+                                  ],
+                                )),
+                            child: "Save for wallpaper".f16w4(
+                                fontSize: 12.sp, fontWeight: FontWeight.w500)),
+                      )
               ],
             ),
     );
