@@ -42,7 +42,7 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
     late String message;
     var random = Random();
     try {
-      // Download image
+      // Download images
       final http.Response response = await http.get(Uri.parse(url));
 
       // Get temporary directory
@@ -544,7 +544,7 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                     child: homePageController.catelougeDescription.value
                         .toString()
                         .f16w6(
-                            textColor: KColors.persistentBlack, 
+                            textColor: KColors.persistentBlack,
                             fontSize: 10.sp,
                             fontFamily: Fontfamily.poppins)
                         .paddingAll(10),
