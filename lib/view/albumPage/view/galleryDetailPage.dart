@@ -550,7 +550,7 @@ Android: https://play.google.com/store/apps/details?id=com.catalougeapp.app&pcam
                         .paddingAll(10),
                   ),
                 ),
-                Platform.isIOS
+                Platform.isAndroid
                     ? homePageController.setWallpaper(
                         context,
                         homePageController
