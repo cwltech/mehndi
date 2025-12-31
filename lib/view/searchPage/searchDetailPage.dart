@@ -11,7 +11,6 @@ import 'package:catalougeapp/view/albumPage/view/productEnquiryPage.dart';
 import 'package:catalougeapp/view/albumPage/widget/actionWallpaperbutton.dart';
 import 'package:catalougeapp/view/homepage/controller/controller.dart';
 import 'package:catalougeapp/view/homepage/widget.dart';
-import 'package:catalougeapp/view/upgradePrimiumPage/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -231,7 +230,7 @@ class _SearchDeatilPageState extends State<SearchDeatilPage> {
                               "2") {
                             pageNavigation(ProductEnquiryPage());
                           } else {
-                            pageNavigation(UpgradePrimiumPage());
+                            // pageNavigation(UpgradePrimiumPage());
                           }
                         },
                         child: Container(

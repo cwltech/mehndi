@@ -14,7 +14,7 @@ import 'package:catalougeapp/view/homepage/model/homeSubcategoryModel.dart';
 import 'package:catalougeapp/view/homepage/model/subCategoryModel.dart';
 import 'package:catalougeapp/view/homepage/widget.dart';
 import 'package:catalougeapp/view/mainPage/controller.dart';
-import 'package:catalougeapp/view/paymentGateway/controller/paymentGatewayController.dart';
+
 import 'package:catalougeapp/view/profilePage/controller/controller.dart';
 import 'package:catalougeapp/view/termsAndConditionPage/model.dart';
 import 'package:catalougeapp/view/whislistPage/model.dart';
@@ -32,7 +32,7 @@ import '../../../utils/reviewHelper.dart';
 class HomePageController extends GetxController {
   AlbumPageController albumPageController = Get.find();
   ProfilePageController profilePageController = Get.find();
-  PaymentGatewayController paymentGatewayController = Get.find();
+  // PaymentGatewayController paymentGatewayController = Get.find();
   MainPageController mainPageController = Get.find();
   RxInt indexes = 0.obs;
   RxInt selectedSubCategoryIndex = (-1).obs;

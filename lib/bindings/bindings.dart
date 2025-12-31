@@ -4,9 +4,9 @@ import 'package:catalougeapp/view/homepage/controller/controller.dart';
 import 'package:catalougeapp/view/login/controller/loginPageController.dart';
 import 'package:catalougeapp/view/mainPage/controller.dart';
 import 'package:catalougeapp/view/otpPage/controller/controller.dart';
-import 'package:catalougeapp/view/paymentGateway/controller/paymentGatewayController.dart';
+// import 'package:catalougeapp/view/paymentGateway/controller/paymentGatewayController.dart';
 import 'package:catalougeapp/view/profilePage/controller/controller.dart';
-import 'package:catalougeapp/view/upgradePrimiumPage/controller.dart';
+// import 'package:catalougeapp/view/upgradePrimiumPage/controller.dart';
 import 'package:get/get.dart';
 
 class GetxBindings extends Bindings {
@@ -21,10 +21,10 @@ class GetxBindings extends Bindings {
     Get.lazyPut<ProfilePageController>(() => ProfilePageController(),
         fenix: true);
     Get.lazyPut<LocalStorage>(() => LocalStorage(), fenix: true);
-    Get.lazyPut<PaymentGatewayController>(() => PaymentGatewayController(),
-        fenix: true);
-    Get.lazyPut<UpgradePrimiumController>(() => UpgradePrimiumController(),
-        fenix: true);
+    // Get.lazyPut<PaymentGatewayController>(() => PaymentGatewayController(),
+    //     fenix: true);
+    // Get.lazyPut<UpgradePrimiumController>(() => UpgradePrimiumController(),
+    //     fenix: true);
     // Get.lazyPut<NotificationController>(() => NotificationController(),
     //     fenix: true);
   }

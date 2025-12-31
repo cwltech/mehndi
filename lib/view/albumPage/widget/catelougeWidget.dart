@@ -4,7 +4,7 @@ import 'package:catalougeapp/utils/customImageProvider.dart';
 import 'package:catalougeapp/utils/pageNavigation.dart';
 import 'package:catalougeapp/utils/shimmer.dart';
 import 'package:catalougeapp/view/homepage/controller/controller.dart';
-import 'package:catalougeapp/view/upgradePrimiumPage/view.dart';
+// import 'package:catalougeapp/view/upgradePrimiumPage/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -21,9 +21,10 @@ class CatelougeWidget extends StatelessWidget {
         imagebuilder: (context, image) {
           return InkWell(
               onTap: () {
-                controller!.catelougeListByCategoryList[index!].primium == "1"
-                    ? pageNavigation(UpgradePrimiumPage())
-                    : controller!.catelougeDetailPage(index, context);
+                // controller!.catelougeListByCategoryList[index!].primium == "1"
+                //     ? pageNavigation(UpgradePrimiumPage())
+                //     :
+                controller!.catelougeDetailPage(index, context);
               },
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
